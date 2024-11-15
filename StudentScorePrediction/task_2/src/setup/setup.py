@@ -37,7 +37,7 @@ def setup_stg():
 
     if "MLP Regression" in model_name_list:
         model_param_dict["MLP Regression"] = {
-            "model__hidden_layer_sizes": config["mlp"]["hidden_layer_size_list"],
+            "model__hidden_layer_sizes": config["mlp"]["hidden_layer_sizes_list"],
             "model__activation": config["mlp"]["activation_list"],
             "model__solver": config["mlp"]["solver_list"],
             "model__learning_rate": config["mlp"]["learning_rate_list"],
