@@ -1,8 +1,8 @@
 database:
-  path: "../data/score.db"
+  path: "../../data/score.db"
 
 features:
-  target: "final_result"
+  target: "final_test"
   redundant_list:
     - "index"
     - "number_of_siblings"
@@ -18,6 +18,13 @@ features:
     - "learning_style"
     - "tuition"
     - "mode_of_transport"
+  time_list:
+    - "sleep_time"
+    - "wake_time"
+  corr_list:
+    - "attendance_rate"
+    - "hours_per_week"
+    - "sleep_hours"
 
 model:
   test_size: 0.2
