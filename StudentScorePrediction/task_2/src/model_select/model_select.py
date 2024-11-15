@@ -25,7 +25,7 @@ def model_selection(
     models = {
         "Linear Regression": {"model": LinearRegression(), "params": {}},
         "Random Forest": {
-            "model": RandomForestRegressor(random_state=str(model_random_state)),
+            "model": RandomForestRegressor(random_state=model_random_state),
             "params": {
                 "model__n_estimators": rand_forest_est_list,
                 "model__max_depth": rand_forest_depth_list,
