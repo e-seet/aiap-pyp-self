@@ -1,11 +1,14 @@
 import pandas as pd
 
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 from sklearn.model_selection import GridSearchCV
-from sklearn.compose import ColumnTransformer
+from sklearn.neural_network import MLPRegressor
+from sklearn.linear_model import BayesianRidge
+from xgboost import XGBRegressor
 from typing import List
 
 
@@ -16,6 +19,7 @@ def model_selection(
     X_train: pd.DataFrame,
     Y_train: pd.DataFrame,
     model_random_state: int,
+    model_num_jobs: int,
     rand_forest_est_list: List,
     rand_forest_depth_list: List,
     svr_c_list: List,
@@ -52,7 +56,11 @@ def model_selection(
 
         # Use GridSearchCV for hyper-parameter tuning
         grid = GridSearchCV(
-            pipeline, param_grid=mp["params"], cv=5, scoring="neg_mean_squared_error"
+            pipeline,
+            param_grid=mp["params"],
+            cv=5,
+            scoring="neg_mean_squared_error",
+            n_jobs=model_num_jobs,
         )
         grid.fit(X_train, Y_train)
 
