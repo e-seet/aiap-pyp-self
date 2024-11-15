@@ -29,11 +29,14 @@ features:
 model:
   test_size: 0.2
   random_state: 42
-  name_list:
+  name_list: # Valid values are "Linear Regression/Random Forest/SVR/MLP Regression/Bayesian Ridge/XG Boost
     - "Linear Regression"
     - "Random Forest"
     - "SVR"
-  rand_forest_est:
+  num_jobs: 4 # 0 to n -> Use n number of CPUs, -1 -> Use all available CPUs
+
+rand_forest:
+  est_list:
     - 100
     - 125
     - 150
@@ -43,21 +46,23 @@ model:
     - 250
     - 275
     - 300
-  rand_forest_depth:
-    - None
+  depth_list:
     - 5
     - 10
     - 15
     - 20
     - 25
     - 30
-  svr_c:
+
+svr:
+  c_list:
     - 0.1
     - 1
     - 5
     - 10
     - 15
     - 20
-  svr_kernel:
+  kernel_list:
     - "linear"
-    - "rbf"
+    - "rbf" # Radial basis function - Effective for non-linear
+    - "sigmoid" # Similar to neural network

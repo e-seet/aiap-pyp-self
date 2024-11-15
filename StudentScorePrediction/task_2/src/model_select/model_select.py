@@ -9,7 +9,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import BayesianRidge
 from xgboost import XGBRegressor
-from typing import List
+from typing import Dict
 
 
 # Pre-select a few models then execute model training and optimization
@@ -20,35 +20,46 @@ def model_selection(
     Y_train: pd.DataFrame,
     model_random_state: int,
     model_num_jobs: int,
-    rand_forest_est_list: List,
-    rand_forest_depth_list: List,
-    svr_c_list: List,
-    svr_kernel_list: List,
+    model_param_dict: Dict,
 ):
     ## Define models and hyper-parameters
-    models = {
-        "Linear Regression": {"model": LinearRegression(), "params": {}},
-        "Random Forest": {
+    model_dict = {}
+
+    if "Linear Regression" in model_param_dict:
+        model_dict["Linear Regression"] = {
+            "model": LinearRegression(),
+            "params": model_param_dict["Linear Regression"],
+        }
+    if "Random Forest" in model_param_dict:
+        model_dict["Random Forest"] = {
             "model": RandomForestRegressor(random_state=model_random_state),
-            "params": {
-                "model__n_estimators": rand_forest_est_list,
-                "model__max_depth": rand_forest_depth_list,
-            },
-        },
-        "SVR": {  # Support Vector Regressor
-            "model": SVR(),
-            "params": {
-                "model__C": svr_c_list,
-                "model__kernel": svr_kernel_list,
-            },
-        },
-    }
+            "params": model_param_dict["Random Forest"],
+        }
+    if "SVR" in model_param_dict:  # Support Vector Regressor
+        model_dict["SVR"] = {"model": SVR(), "params": model_param_dict["SVR"]}
+    if "MLP Regression" in model_param_dict:
+        model_dict["MLP Regression"] = {
+            "model": MLPRegressor(random_state=model_random_state),
+            "params": model_param_dict["MLP Regression"],
+        }
+    if "Bayesian Ridge" in model_param_dict:
+        model_dict["Bayesian Ridge"] = {
+            "model": BayesianRidge(),
+            "params": model_param_dict["Bayesian Ridge"],
+        }
+    if "XG Boost" in model_param_dict:
+        model_dict["XG Boost"] = {
+            "model": XGBRegressor(
+                objective="reg:squarederror", random_state=model_random_state
+            ),
+            "params": model_param_dict["XG Boost"],
+        }
 
     ## Initialize empty dictionary to store best models
     best_estimators_dict = {}
 
     ## Loop through each model
-    for model_name, mp in models.items():
+    for model_name, mp in model_dict.items():
         # Create pipline with preprocessing and model
         pipeline = Pipeline(
             steps=[("preprocessor", preprocessor), ("model", mp["model"])]
