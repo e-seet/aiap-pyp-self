@@ -71,4 +71,5 @@ def setup_stg():
         model_test_size,
         model_random_state,
         model_num_jobs,
+        model_param_dict,
     )
