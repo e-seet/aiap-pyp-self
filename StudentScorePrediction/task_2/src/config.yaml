@@ -1,0 +1,24 @@
+database:
+  path: "../data/score.db"
+
+features:
+  target: "final_result"
+  redundant_list:
+    - "index"
+    - "number_of_siblings"
+    - "student_id"
+    - "gender"
+    - "n_male"
+    - "n_female"
+    - "age"
+    - "bag_color"
+  non_corr_list:
+    - "direct_admission"
+    - "CCA"
+    - "learning_style"
+    - "tuition"
+    - "mode_of_transport"
+
+model:
+  test_size: 0.2
+  random_state: 42
