@@ -18,6 +18,9 @@ def ml_eda_step(
     model_test_size: float,
     model_random_state: int,
 ):
+    # Remove duplicate rows based on 'student_id' column data
+    score_data = score_data.drop_duplicates(subset="student_id", keep="first")
+
     ## Drop rows with empty cells & redundant columns
     fil_score_data = score_data.drop(columns=redundant_col_list)
 
