@@ -9,7 +9,7 @@ Personal Github repository to attempt AIAP's Past Year Questions
 - [StudentScorePrediction](StudentScorePrediction)
 
 ## To-Do:
-- Clean up duplicate student_id rows before dropping it
+- NIL
 
 ## Reference
 https://github.com/aisingapore/AIAP-Technical-Assessment-Past-Years-Series/tree/main
