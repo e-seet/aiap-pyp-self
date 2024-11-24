@@ -25,7 +25,7 @@ def model_evaluation(
 
     ## Info -
     # Mean Squared Error - Measures average squared difference between predicted and actual values
-    # Lower values -> Better performance
+    # Lower values -> Better performance --> 0 = Perfect model
 
     # R^2 Score - Indicates proportion of variance explained by model
     # Score closer to 1 -> Better fit

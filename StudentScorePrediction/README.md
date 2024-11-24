@@ -13,41 +13,50 @@ Use Jupyter notebook (eda.ipynb) to do Exploratory Data Analysis (EDA) on the pr
 Requirements:
 - Use SQLite or similar to open and read the SQL database
 - Clean up and process data to produce some form of correlation between students' score and the other data sets
-- For details on the feature engineering done to the data from the SQL database, please refer to the table in 
-- Columns that are not related to the students' score and those that are not correlatable are dropped from the data set
-- Using scatterplot and correlation matrix, the relationship between the remaining features and the students' score are shown
+- For details on the feature engineering done to the data from the SQL database, please refer to the table below
+    - Perform data set standardization and one-hot encoding
+- Plot heatmap to visualize dimension reduction and drop features with correlation values that are too low
+- Test machine learning models with remaining data
+- Perform machine learning with 95% variance features (PCA)
 
 #### Summarized Details
 1. Use SQLite to connect to SQL database, score.db, and check the structure, column data type and data in 'score' table
 2. Get the row_count of 'score' table to assess size of data set
 3. Extract 'score' table into a DataFrame using SQLite for further processing
-4. Drop irrelevant columns that have no relationship with 'final_test' column
-5. Clean up DataFrame of empty cells by dropping the rows
-6. Performing labelling for columns that have data with text type (Refer to Feature Engineering Table for mapping)
-7. Use sleep_time and wake_time to calculate the number of hours of sleep, then drop sleep_time and wake_time columns
-8. Check the summary statistics of the DataFrame to get a sense of the benchmark value of weak students ('final_test' value <  25% metric)
-9. Plot scatterplots for each feature data against 'final_test' to check correlation
-10. Drop columns that do not any clear correlated data to reduce data set
-11. Plot correlation matrix to accurately see the correlation value between the feature data and 'final_test' (Further from 0 = Stronger correlation)
+4. Clean up DataFrame of empty cells by dropping the rows
+5. Use sleep_time and wake_time to calculate the number of hours of sleep, then drop sleep_time and wake_time columns
+6. Check the summary statistics of the DataFrame to get a sense of the benchmark value of weak students ('final_test' value <  25% metric)
+7. Perform data set standardization on columns with numeric data
+8. Perform one-hot encoding on columns with non-numeric data
+9. Visualize data set dimension reduction using feature correlation heatmap and drop features that have correlation value < 0.1
+10. Test Linear Regression, Random Forest Regression and XG Boost machine learning models with remaining data set
+11. Perform Random Forest Regression machine learning with 95% variance data (PCA)
+12. Perform cross-validation with PCA feature
 
 
 #### Feature Engineering Table
-| No. | Column Name | Value | Mapping |
-| :-: | :---------: | :---: | :-----: |
-|  1  | direct_admission  |         No        | 0 |
-|     |                   |         Yes       | 1 |
-|  2  |       CCA         |       Sports      | 0 |
-|     |                   |        Arts       | 1 | 
-|     |                   |        Clubs      | 2 |
-|     |                   |        None       | 3 |
-|  3  |  learning_style   |       Visual      | 0 |
-|     |                   |      Auditory     | 1 |
-|  4  |      tuition      |        No/N       | 0 |
-|     |                   |       Yes/Y       | 1 |
-|  5  | mode_of_transport |        Walk       | 0 |
-|     |                   | Public Transport  | 1 |
-|     |                   | Private Transport | 2 |
-|     |                   |                   |   |
+| No. | Column Name | Value |
+| :-: | :---------: | :---: |
+|  1  | direct_admission  |         No        |
+|     |                   |        Yes        |
+|  2  |       CCA         |       Sports      |
+|     |                   |        Arts       | 
+|     |                   |        Clubs      |
+|     |                   |        None       |
+|  3  |  learning_style   |       Visual      |
+|     |                   |      Auditory     |
+|  4  |      tuition      |        No/N       |
+|     |                   |       Yes/Y       |
+|  5  | mode_of_transport |        Walk       |
+|     |                   | Public Transport  |
+|     |                   | Private Transport |
+|  6  |    bag_color      |       Yellow      |
+|     |                   |        Red        |
+|     |                   |       Green       |
+|     |                   |       White       |
+|     |                   |       Black       |
+|     |                   |       Blue        |
+|     |                   |                   |
 
 <br>
 
