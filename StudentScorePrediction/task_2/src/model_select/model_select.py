@@ -5,7 +5,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import BayesianRidge
 from xgboost import XGBRegressor
@@ -19,6 +19,8 @@ def model_selection(
     X_train: pd.DataFrame,
     Y_train: pd.DataFrame,
     model_random_state: int,
+    model_search_method: str,
+    model_cv_num: int,
     model_num_jobs: int,
     model_param_dict: Dict,
 ):
@@ -66,17 +68,26 @@ def model_selection(
         )
 
         # Use GridSearchCV for hyper-parameter tuning
-        grid = GridSearchCV(
-            pipeline,
-            param_grid=mp["params"],
-            cv=5,
-            scoring="neg_mean_squared_error",
-            n_jobs=model_num_jobs,
-        )
-        grid.fit(X_train, Y_train)
+        if model_search_method == "grid":
+            model_search = GridSearchCV(
+                pipeline,
+                param_grid=mp["params"],
+                cv=model_cv_num,
+                scoring="neg_mean_squared_error",
+                n_jobs=model_num_jobs,
+            )
+        elif model_search_method == "random":
+            model_search = RandomizedSearchCV(
+                pipeline,
+                param_grid=mp["params"],
+                cv=model_cv_num,
+                scoring="neg_mean_squared_error",
+                n_jobs=model_num_jobs,
+            )
+        model_search.fit(X_train, Y_train)
 
         # Save best model and use the parameters for model evaluation
-        best_estimators_dict[model_name] = grid.best_estimator_
-        print(f"Best parameters for {model_name}: {grid.best_params_}")
+        best_estimators_dict[model_name] = model_search.best_estimator_
+        print(f"Best parameters for {model_name}: {model_search.best_params_}")
 
     return best_estimators_dict
