@@ -10,12 +10,14 @@ def setup_stg():
     db_path = config["database"]["path"]
     target_col = config["features"]["target"]
     redundant_col_list = config["features"]["redundant_list"]
-    non_corr_col_list = config["features"]["non_corr_list"]
     time_col_list = config["features"]["time_list"]
-    corr_col_list = config["features"]["corr_list"]
+    standard_col_list = config["features"]["standard_list"]
+    encode_col_list = config["features"]["encode_list"]
     model_test_size = config["model"]["test_size"]
     model_random_state = config["model"]["random_state"]
     model_name_list = config["model"]["name_list"]
+    model_search_method = config["model"]["search_method"]
+    model_cv_num = config["model"]["cv_num"]
     model_num_jobs = config["model"]["num_jobs"]
 
     model_param_dict = {}
@@ -65,11 +67,13 @@ def setup_stg():
         db_path,
         target_col,
         redundant_col_list,
-        non_corr_col_list,
         time_col_list,
-        corr_col_list,
+        standard_col_list,
+        encode_col_list,
         model_test_size,
         model_random_state,
+        model_search_method,
+        model_cv_num,
         model_num_jobs,
         model_param_dict,
     )

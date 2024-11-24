@@ -11,12 +11,14 @@ import model_eval.model_eval as model_eval
     db_path,
     target_col,
     redundant_col_list,
-    non_corr_col_list,
     time_col_list,
-    corr_col_list,
+    standard_col_list,
+    encode_col_list,
     model_test_size,
     model_random_state,
     model_num_jobs,
+    model_search_method,
+    model_cv_num,
     model_param_dict,
 ) = setup.setup_stg()
 
@@ -32,9 +34,9 @@ score_data = pd.read_sql_query(score_data_query, conn)
 fil_score_data, preprocessor, X_train, X_test, Y_train, Y_test = EDA.ml_eda_step(
     score_data,
     redundant_col_list,
-    non_corr_col_list,
     time_col_list,
-    corr_col_list,
+    standard_col_list,
+    encode_col_list,
     target_col,
     model_test_size,
     model_random_state,
@@ -46,6 +48,8 @@ best_estimator_dict = model_select.model_selection(
     X_train,
     Y_train,
     model_random_state,
+    model_search_method,
+    model_cv_num,
     model_num_jobs,
     model_param_dict,
 )
