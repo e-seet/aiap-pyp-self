@@ -33,7 +33,7 @@ model:
   search_method: "grid" # Valid values are "grid/random"
   cv_num: 5 # Number of cross-validation folds
   scoring: "neg_mean_squared_error"
-  num_jobs: 4 # 0 to n -> Use n number of CPUs, -1 -> Use all available CPUs
+  num_jobs: -1 # 0 to n -> Use n number of CPUs, -1 -> Use all available CPUs
 
 rand_forest:
   est_list: # 
