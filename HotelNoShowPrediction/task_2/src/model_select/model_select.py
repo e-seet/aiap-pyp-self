@@ -1,4 +1,7 @@
 import pandas as pd
+import time
+
+import setup.duration_cal as duration_cal
 
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -62,6 +65,8 @@ def model_selection(
 
     ## Loop through each model
     for model_name, mp in model_dict.items():
+        model_start_time = time.time()
+        print(f"Processing {model_name} now...")
         ### Create pipeline with preprocessing and model
         pipeline = Pipeline(
             steps=[("preprocessor", preprocessor), ("model", mp["model"])]
@@ -91,5 +96,11 @@ def model_selection(
         ### Save best model and use parameters for model evaluation
         best_estimators_dict[model_name] = search.best_estimator_
         print(f"Best parameters for {model_name}: {search.best_params_}")
+
+        model_end_time = time.time()
+        model_total_time = model_end_time - model_start_time
+        model_duration, model_tag = duration_cal.duration_cal(model_total_time)
+        print(f"{model_name} has run tuning for {model_duration:.3f} {model_tag}!")
+        print()
 
     return best_estimators_dict
