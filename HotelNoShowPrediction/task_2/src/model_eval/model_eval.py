@@ -16,7 +16,7 @@ def model_evaluation(
 
     for model_name, model in best_estimator_dict.items():
         model_start_time = time.time()
-        print(f"Processing {model_name} now...")
+        print(f"Evaluating {model_name} now...")
         ### Predict on test set
         Y_predict = model.predict(X_test)
         ### Calculate evaluation metrics
@@ -28,7 +28,7 @@ def model_evaluation(
         model_end_time = time.time()
         model_total_time = model_end_time - model_start_time
         model_duration, model_tag = duration_cal.duration_cal(model_total_time)
-        print(f"{model_name} has run for {model_duration:.3f} {model_tag}!")
+        print(f"{model_name} has run evaluation for {model_duration:.3f} {model_tag}!")
         print()
 
     ## Info -
