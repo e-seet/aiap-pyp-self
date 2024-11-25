@@ -32,8 +32,8 @@ conn = sqlite3.connect(db_path)
 print("Connection done!")
 
 part1_time = time.time()
-part1_duration, part1_tag = duration_cal(part1_time - start_time)
-print(f"Part 1 has run for {part1_duration} {part1_tag}!")
+part1_duration, part1_tag = duration_cal.duration_cal(part1_time - start_time)
+print(f"Part 1 has run for {part1_duration:.3f} {part1_tag}!")
 print()
 
 # Get data from 'noshow' table
@@ -43,8 +43,8 @@ noshow_data_df = pd.read_sql_query(noshow_data_query, conn)
 print("Extraction done!")
 
 part2_time = time.time()
-part2_duration, part2_tag = duration_cal(part2_time - part1_time)
-print(f"Part 2 has run for {part2_duration} {part2_tag}!")
+part2_duration, part2_tag = duration_cal.duration_cal(part2_time - part1_time)
+print(f"Part 2 has run for {part2_duration:.3f} {part2_tag}!")
 print()
 
 # Using analysis from task_1 EDA, perform data preprocessing, feature data standardization and one-hot encoding
@@ -61,8 +61,8 @@ fil_noshow_data_df, preprocessor, X_train, X_test, Y_train, Y_test = EDA.ml_eda_
 print("EDA step done!")
 
 part3_time = time.time()
-part3_duration, part3_tag = duration_cal(part3_time - part2_time)
-print(f"Part 3 has run for {part3_duration} {part3_tag}!")
+part3_duration, part3_tag = duration_cal.duration_cal(part3_time - part2_time)
+print(f"Part 3 has run for {part3_duration:.3f} {part3_tag}!")
 print()
 
 # Pre-select a few models and train models to get best optimized parameters
@@ -81,8 +81,8 @@ best_estimator_dict = model_select.model_selection(
 print("Training done!")
 
 part4_time = time.time()
-part4_duration, part4_tag = duration_cal(part4_time - part3_time)
-print(f"Part 4 has run for {part4_duration} {part4_tag}!")
+part4_duration, part4_tag = duration_cal.duration_cal(part4_time - part3_time)
+print(f"Part 4 has run for {part4_duration:.3f} {part4_tag}!")
 print()
 
 # Evaluate pre-selected models to get mean-squared error and r^2 values to determine which model is better for current dataset
@@ -91,8 +91,8 @@ model_eval.model_evaluation(X_test, Y_test, best_estimator_dict)
 print("Evaluation done!")
 
 part5_time = time.time()
-part5_duration, part5_tag = duration_cal(part5_time - part4_time)
-print(f"Part 5 has run for {part5_duration} {part5_tag}!")
+part5_duration, part5_tag = duration_cal.duration_cal(part5_time - part4_time)
+print(f"Part 5 has run for {part5_duration:.3f} {part5_tag}!")
 print()
 print()
 
@@ -102,7 +102,7 @@ print()
 
 end_time = time.time()
 final_time = end_time - start_time
-final_duration, final_tag = duration_cal(final_time)
+final_duration, final_tag = duration_cal.duration_cal(final_time)
 
 print("Script has reached end of line - It will terminate now!")
-print(f"Script has run for {final_duration} {final_tag}!")
+print(f"Script has run for {final_duration:.3f} {final_tag}!")
