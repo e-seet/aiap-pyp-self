@@ -3,7 +3,7 @@ import time
 
 import setup.duration_cal as duration_cal
 
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import confusion_matrix, classification_report
 from typing import Dict
 
 
@@ -20,10 +20,13 @@ def model_evaluation(
         ### Predict on test set
         Y_predict = model.predict(X_test)
         ### Calculate evaluation metrics
-        mse = mean_squared_error(Y_test, Y_predict)
-        r2 = r2_score(Y_test, Y_predict)
+        confuse_matrix = confusion_matrix(Y_test, Y_predict)
+        class_rpt = classification_report(Y_test, Y_predict)
         ### Store results
-        eval_result_dict[model_name] = {"Mean Squared Error": mse, "R^2 Score": r2}
+        eval_result_dict[model_name] = {
+            "Confusion Matrix": confuse_matrix,
+            "Classification Report": class_rpt,
+        }
 
         model_end_time = time.time()
         model_total_time = model_end_time - model_start_time
@@ -32,11 +35,17 @@ def model_evaluation(
         print()
 
     ## Info -
-    ### Mean Squared Error - Measures average squared difference between predicted and actual values
-    ### Lower vlaues -> Better performance
+    ### Accuracy - Measures overall percentage of correct predictions
+    ### Optimal value = 1.0 (100%), Lowest value = 0.0
 
-    ### R^2 scoore - Indicates proportion of varaince explained by model
-    ### Score closer to 1 -> Better fit
+    ### Precision - Out of instances predicted as positive, how many were actually positive
+    ### Optimal value = 1.0 (100%), Lowest value = 0.0
+
+    ### Recall - Out of actual positives, how many were correctly predicted
+    ### Optimal value = 1.0 (100%), Lowest value = 0.0
+
+    ### F1-Score - A combined metric that balances precision and recall
+    ### Optimal value = 1.0 (100%), Lowest value = 0.0
 
     ## Display results
     results_df = pd.DataFrame(eval_result_dict).T
