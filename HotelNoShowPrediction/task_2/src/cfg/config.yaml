@@ -4,20 +4,19 @@ database:
 features:
   target: "no_show"
   num_map:
-    one: 1
-    two: 2
+    one: "1"
+    two: "2"
   standard_list:
-    - "no_show"
     - "arrival_day"
     - "checkout_day"
-    - "num_adults"
-    - "num_children"
     - "sgd_price"
   one_hot_list:
     - "branch"
     - "booking_month"
     - "arrival_month"
     - "checkout_month"
+    - "num_adults"
+    - "num_children"
     - "country"
     - "first_time"
     - "room"
@@ -26,14 +25,44 @@ features:
 model:
   test_size: 0.2
   random_state: 42
-  name_list: # Valid values are "Linear Regression/Random Forest/SVR/MLP Regression/Bayesian Ridge/XG Boost
-    - "Linear Regression"
+  name_list: # Valid values are "Logistic Regression/Random Forest/SVC/MLP/XG Boost
+    - "Logistic Regression"
     - "Random Forest"
-    - "SVR"
+    - "SVC"
+    - "MLP"
+    - "Naive Bayes"
+    - "XG Boost"
   search_method: "grid" # Valid values are "grid/random"
   cv_num: 5 # Number of cross-validation folds
   scoring: "neg_mean_squared_error"
+  num_iter: 50 # Number of iterations for RandomizedSearchCV
   num_jobs: -1 # 0 to n -> Use n number of CPUs, -1 -> Use all available CPUs
+
+logistic:
+  solver_list:
+    - "lbfgs"
+    - "liblinear"
+    # - "sag" # Cannot converge for lower max_iter value
+    - "newton-cg"
+    - "newton-cholesky"
+  max_iter_list:
+    - 100
+    - 125
+    - 150
+    - 175
+    - 200
+  c_list:
+    - 0.1
+    - 1
+    - 5
+    - 10
+    - 15
+    - 20
+  class_weight_list:
+    - "balanced"
+    - {0: 1, 1: 1.7}
+    - {0: 1, 1: 2}
+    - {0: 1, 1: 5}
 
 rand_forest:
   est_list: # 
@@ -59,8 +88,13 @@ rand_forest:
     - 30
     - 35
     - 40
+  class_weight_list:
+    - "balanced"
+    - {0: 1, 1: 1.7}
+    - {0: 1, 1: 2}
+    - {0: 1, 1: 5}
 
-svr:
+svc:
   c_list:
     - 0.1
     - 1
@@ -72,6 +106,11 @@ svr:
     - "linear"
     - "rbf" # Radial basis function - Effective for non-linear
     - "sigmoid" # Similar to neural network
+  class_weight_list:
+    - "balanced"
+    - {0: 1, 1: 1.7}
+    - {0: 1, 1: 2}
+    - {0: 1, 1: 5}
 
 mlp:
   hidden_layer_sizes_list:
@@ -94,40 +133,15 @@ mlp:
     - 2000
 
 bayes:
-  max_iter_list:
-    - 300
-    - 500
-    - 1000
-    - 1200
-    - 1500
-  alpha_1:
-    - 0.000001
-    - 0.00001
-    - 0.0001
-    - 0.001
-  alpha_2:
-    - 0.000001
-    - 0.00001
-    - 0.0001
-    - 0.001
-  lambda_1:
-    - 0.000001
-    - 0.00001
-    - 0.0001
-    - 0.001
-  lambda_2:
-    - 0.000001
-    - 0.00001
-    - 0.0001
-    - 0.001
+  alpha_list:
+    - 0.01
+    - 0.1
+    - 1.0
+    - 1.5
+    - 2.0
+    - 3.0
 
 xgb:
-  n_est_list:
-    - 100
-    - 200
-    - 300
-    - 400
-    - 500
   learning_rate_list:
     - 0.01
     - 0.05
