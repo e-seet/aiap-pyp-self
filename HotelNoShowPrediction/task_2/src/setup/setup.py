@@ -18,46 +18,49 @@ def setup_stage():
     model_search_method = config["model"]["search_method"]
     model_cv_num = config["model"]["cv_num"]
     model_scoring = config["model"]["scoring"]
+    model_num_iter = config["model"]["num_iter"]
     model_num_jobs = config["model"]["num_jobs"]
 
     model_param_dict = {}
 
-    if "Linear Regression" in model_name_list:
-        model_param_dict["Linear Regression"] = {}
+    if "Logistic Regression" in model_name_list:
+        model_param_dict["Logistic Regression"] = {
+            "model__solver": config["logistic"]["solver_list"],
+            "model__max_iter": config["logistic"]["max_iter_list"],
+            "model__C": config["logistic"]["c_list"],
+            "model__class_weight": config["logistic"]["class_weight_list"],
+        }
 
     if "Random Forest" in model_name_list:
         model_param_dict["Random Forest"] = {
             "model__n_estimators": config["rand_forest"]["est_list"],
             "model__max_depth": config["rand_forest"]["depth_list"],
+            "model__class_weight": config["logistic"]["class_weight_list"],
         }
 
-    if "SVR" in model_name_list:
-        model_param_dict["SVR"] = {
-            "model__C": config["svr"]["c_list"],
-            "model__kernel": config["svr"]["kernel_list"],
+    if "SVC" in model_name_list:
+        model_param_dict["SVC"] = {
+            "model__C": config["svc"]["c_list"],
+            "model__kernel": config["svc"]["kernel_list"],
+            "model__class_weight": config["logistic"]["class_weight_list"],
         }
 
-    if "MLP Regression" in model_name_list:
-        model_param_dict["MLP Regression"] = {
+    if "MLP" in model_name_list:
+        model_param_dict["MLP"] = {
             "model__hidden_layer_sizes": config["mlp"]["hidden_layer_sizes_list"],
             "model__activation": config["mlp"]["activation_list"],
             "model__solver": config["mlp"]["solver_list"],
             "model__learning_rate": config["mlp"]["learning_rate_list"],
-            "model_max_iter": config["mlp"]["max_iter_list"],
+            "model__max_iter": config["mlp"]["max_iter_list"],
         }
 
-    if "Bayesian Ridge" in model_name_list:
-        model_param_dict["Bayesian Ridge"] = {
-            "model__max_iter": config["bayes"]["max_iter_list"],
-            "model__alpha_1": config["bayes"]["alpha_1_list"],
-            "model__alpha_2": config["bayes"]["alpha_2_list"],
-            "model__lambda_1": config["bayes"]["lambda_1_list"],
-            "model__lambda_2": config["bayes"]["lambda_2_list"],
+    if "Naive Bayes" in model_name_list:  # Check on parameter list for Naive Bayes
+        model_param_dict["Naive Bayes"] = {
+            "model__alpha": config["bayes"]["alpha_list"],
         }
 
     if "XG Boost" in model_name_list:
         model_param_dict["XG Boost"] = {
-            "model__n_est": config["xgb"]["n_est_list"],
             "model__learning_rate": config["xgb"]["learning_rate_list"],
             "model__max_depth": config["xgb"]["max_depth_list"],
             "model__subsample": config["xgb"]["subsample_list"],
@@ -74,6 +77,7 @@ def setup_stage():
         model_search_method,
         model_cv_num,
         model_scoring,
+        model_num_iter,
         model_num_jobs,
         model_param_dict,
     )
