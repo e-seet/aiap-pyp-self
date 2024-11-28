@@ -1,8 +1,9 @@
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
+from imblearn.over_sampling import SMOTE
 from typing import Dict, List
 
 
@@ -37,6 +38,12 @@ def ml_eda_step(
     ### Apply num_map_dict to 'num_adults' column
     fil_noshow_data_df["num_adults"] = fil_noshow_data_df["num_adults"].replace(
         num_map_dict
+    )
+
+    ### Perform label categorization to make target columns has categorical values
+    lab_enc = LabelEncoder()
+    fil_noshow_data_df[target_col] = lab_enc.fit_transform(
+        fil_noshow_data_df[target_col]
     )
 
     ### Perform standardization and one-hot encoding
@@ -93,9 +100,13 @@ def model_data_prep(
         random_state=model_random_state,
     )
 
+    ## Perform SMOTE to balance dataset
+    smote = SMOTE(sampling_strategy="auto", random_state=model_random_state)
+    resampled_X_train, resampled_Y_train = smote.fit_resample(X_train, Y_train)
+
     ## Preprocessing for numerical data
     preprocessor = ColumnTransformer(
         transformers=[("num", StandardScaler(), feature_data_df.columns)]
     )
 
-    return preprocessor, X_train, X_test, Y_train, Y_test
+    return preprocessor, resampled_X_train, X_test, resampled_Y_train, Y_test
