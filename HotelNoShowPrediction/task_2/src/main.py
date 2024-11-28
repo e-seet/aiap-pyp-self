@@ -22,6 +22,7 @@ start_time = time.time()
     model_search_method,
     model_cv_num,
     model_scoring,
+    model_num_iter,
     model_num_jobs,
     model_param_dict,
 ) = setup.setup_stage()
@@ -58,7 +59,7 @@ fil_noshow_data_df, preprocessor, X_train, X_test, Y_train, Y_test = EDA.ml_eda_
     model_test_size,
     model_random_state,
 )
-print("EDA step done!")
+print("EDA done!")
 
 part3_time = time.time()
 part3_duration, part3_tag = duration_cal.duration_cal(part3_time - part2_time)
@@ -75,6 +76,7 @@ best_estimator_dict = model_select.model_selection(
     model_search_method,
     model_cv_num,
     model_scoring,
+    model_num_iter,
     model_num_jobs,
     model_param_dict,
 )
