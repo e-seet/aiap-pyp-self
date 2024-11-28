@@ -34,6 +34,9 @@ model:
     - "Linear Regression"
     - "Random Forest"
     - "SVR"
+    #- "MLP Regression"
+    #- "Bayesian Ridge"
+    #- "XG Boost"
   search_method: "grid" # Valid values are "grid/random"
   cv_num: 5 # Number of cross-validation folds
   num_jobs: 4 # 0 to n -> Use n number of CPUs, -1 -> Use all available CPUs
