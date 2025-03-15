@@ -3,6 +3,19 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
+
+import sys
+import subprocess
+
+try:
+    import imblearn
+except ImportError:
+    print("imbalanced-learn not found. Installing...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "imbalanced-learn"])
+    import imblearn  # try importing again
+
+
+
 from imblearn.over_sampling import SMOTE
 from typing import Dict, List
 
